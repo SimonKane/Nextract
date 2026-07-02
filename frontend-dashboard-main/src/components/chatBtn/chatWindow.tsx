@@ -36,6 +36,17 @@ export default function ChatWindow({
 
   // Load chat messages depending on sessionId
   useEffect(() => {
+    if (!serverURL) {
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            "Hi, this is the local showcase helper. The AI backend is optional in this version.",
+        },
+      ]);
+      return;
+    }
+
     if (sessionId) {
       fetch(
         `${
@@ -59,6 +70,8 @@ export default function ChatWindow({
 
   // Load list of sessions to update history (if needed)
   useEffect(() => {
+    if (!serverURL || !userId) return;
+
     fetch(
       `${
         process.env.NEXT_PUBLIC_HTTP_PROTOCOL ? "http" : "https"
@@ -76,11 +89,27 @@ export default function ChatWindow({
     setLoading(true);
 
     try {
-      const res = await axios.post(`${serverURL}/dashboard/chat`, {
-        message: input,
-        userId,
-        sessionId,
-      });
+      if (!serverURL) {
+        const assistantMsg: ChatMessage = {
+          role: "assistant",
+          content:
+            "In showcase mode I can guide you through the flow: add an API, choose keys, save it, select products and preview the result. The full AI chat backend is kept in the repository for review.",
+        };
+        setMessages((prev) => [...prev, userMsg, assistantMsg]);
+        setLoading(false);
+        return;
+      }
+
+      const res = await axios.post(
+        `${
+          process.env.NEXT_PUBLIC_HTTP_PROTOCOL ? "http" : "https"
+        }://${serverURL}/dashboard/chat`,
+        {
+          message: input,
+          userId,
+          sessionId,
+        }
+      );
 
       const assistantMsg: ChatMessage = {
         role: "assistant",

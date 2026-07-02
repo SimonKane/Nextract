@@ -1,24 +1,15 @@
-# backend
+# Nextract Backend
 
-## Tillfällig supabase-databas.
+This is the original Express/Prisma backend from the Nextract project. It is kept in the repository for review and future development, but the portfolio showcase can run from the frontend without starting this service.
 
-Databaslänken ligger i info.txt.
+The backend includes routes for users, saved APIs, uploads, contact/support and chat. Running it requires environment variables, a configured database and any external service keys used by the prototype.
 
-!!! Se till att varje gång köra `npx prisma db pull´ innan ni ska jobba med databasan för att hämta det aktuella schemat !!!
+## Scripts
 
-Den är redan seedad så den behövs inte köras igen.
+```bash
+npm install
+npm run dev
+npm run build
+```
 
-<!-- # backend-dashboard
-## Running locally
-* `npm install` - Install the dependencies
-* `npm run build` - Build the project
-* Start the database and UI by running `docker-compose up -d` in the terminal
-  * Verify the database is running by running `docker ps` or `docker container ls` in the terminal
-* Delete the database and UI by running `docker-compose down -v` in the terminal
-* The prisma.sh contains prisma commands and also starts the backend server. Run them individually or run `./prisma.sh` to start the backend server
-* .env file is required to run the backend server. You can copy the `.env.example` file and rename it to .env. The .env file contains the database connection string and other environment variables required for the backend server to run. -->
-
-## Docker Instructions
-* Build the image `docker buildx build --target runner -t backend:test .`
-* Create network `docker network create my-net`Only needs to be done once
-* Run the image `docker run -p 3000:3000 --rm -h backend --network=my-net --env-file .env --name backendtest backend:test`
+Use the frontend demo mode for the easiest showcase path.

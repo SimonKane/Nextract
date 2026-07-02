@@ -1,5 +1,12 @@
+import { showcaseProducts } from "@/utils/showcaseData";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const fetchData = async (api: string, endpoint = "", setState: any) => {
+  if (!api || api === "showcase://demo-products") {
+    setState(endpoint === "/1" ? [showcaseProducts[0]] : showcaseProducts);
+    return;
+  }
+
   try {
     const response = await fetch(api + endpoint, {
       method: "GET",
@@ -30,5 +37,6 @@ export const fetchData = async (api: string, endpoint = "", setState: any) => {
     }
   } catch (error) {
     console.error("Error: Failed to fetch data", error);
+    setState(endpoint === "/1" ? [showcaseProducts[0]] : showcaseProducts);
   }
 };

@@ -29,7 +29,7 @@ const ApiInputSection: React.FC<ApiInputSelectionProps> = ({
           type="text"
           name="api"
           id="api"
-          placeholder="API URL"
+          placeholder="API URL or leave empty for demo data"
           className={styles.apiInput}
           value={originalApi || api}
           onChange={(event) => setApi(event.target.value)}

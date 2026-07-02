@@ -13,10 +13,6 @@
     "prisma:dbpull": "npx prisma db pull",
     "seed": "ts-node prisma/seed.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://git.chasacademy.dev/chas-challenge-2025/group_5/backend-dashboard.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -19,6 +19,19 @@ export default function FileUpload() {
     formData.append("file", file);
 
     try {
+      if (!serverURL) {
+        const text = await file.text();
+        const data =
+          file.name.endsWith(".json") || file.type.includes("json")
+            ? JSON.parse(text)
+            : parseCsv(text);
+        const normalized = normalizeData(data);
+        setData(normalized);
+        setAllData(normalized);
+        setError(null);
+        return;
+      }
+
       const res = await fetch(
         `${
           process.env.NEXT_PUBLIC_HTTP_PROTOCOL ? "http" : "https"
@@ -80,12 +93,34 @@ export default function FileUpload() {
     }
   };
 
+  const normalizeData = (data: any) => {
+    return Array.isArray(data)
+      ? data
+      : data.catalog?.product ||
+          data.catalog ||
+          data.products?.product ||
+          data.items || [data];
+  };
+
+  const parseCsv = (text: string) => {
+    const [headerLine, ...rows] = text.trim().split(/\r?\n/);
+    const headers = headerLine.split(",").map((header) => header.trim());
+
+    return rows.map((row) => {
+      const values = row.split(",").map((value) => value.trim());
+      return headers.reduce<Record<string, string>>((item, header, index) => {
+        item[header] = values[index] || "";
+        return item;
+      }, {});
+    });
+  };
+
   return (
     <div>
       <input
         ref={fileInputRef}
         type="file"
-        accept=".xml,.csv,.xlsx"
+        accept=".json,.csv,.xml,.xlsx"
         className={styles.hiddenDefaultInput}
         onChange={onFileChange}
       />

@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { createDemoSession } from "@/utils/showcaseStorage";
 import styles from "./signup-login.module.css";
 
 interface SignupFormInput {
@@ -13,11 +16,26 @@ interface SignupFormInput {
 
 export default function SignupForm({ clicked }: any) {
   const serverURL = process.env.NEXT_PUBLIC_SERVER_URL;
+  const router = useRouter();
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const { register, handleSubmit } = useForm<SignupFormInput>();
+
+  const startDemoAccount = (data: SignupFormInput) => {
+    const user = createDemoSession(data.company, data.email);
+    Cookies.set("token", "showcase-token", { expires: 1 });
+    Cookies.set("userData", JSON.stringify(user), { expires: 1 });
+    setShowSuccessModal(true);
+    setTimeout(() => router.push("/dashboard"), 900);
+  };
+
   const onSubmit: SubmitHandler<SignupFormInput> = async (data) => {
+    if (!serverURL) {
+      startDemoAccount(data);
+      return;
+    }
+
     try {
       /* Här vi fetchar från vår backend sen. */
       const response = await fetch(
@@ -44,7 +62,8 @@ export default function SignupForm({ clicked }: any) {
         throw new Error("Could not fetch from server");
       }
     } catch (error) {
-      alert(`No connection to server, error: ${error}`);
+      console.warn("No backend connection, creating showcase account.", error);
+      startDemoAccount(data);
     }
   };
 

@@ -13,7 +13,8 @@ import Cookies from "js-cookie";
 export type User = {
   id: string;
   email: string;
-  password: string;
+  password?: string;
+  company?: string;
 };
 
 type AuthContextType = {
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = Cookies.get("token");
-    const userData = Cookies.get("user");
+    const userData = Cookies.get("userData") || Cookies.get("user");
 
     if (token && userData) {
       setUser(JSON.parse(userData));
@@ -43,15 +44,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = (userData: User, token: string) => {
     Cookies.set("token", token, { expires: 1 });
     Cookies.set("user", JSON.stringify(userData), { expires: 1 });
+    Cookies.set("userData", JSON.stringify(userData), { expires: 1 });
+    setUser(userData);
   };
 
   const logout = () => {
     Cookies.remove("token");
     Cookies.remove("user");
+    Cookies.remove("userData");
 
     setUser(null);
 
-    router.push("/log-in");
+    router.push("/signup-login");
   };
 
   return (

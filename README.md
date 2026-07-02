@@ -1,118 +1,51 @@
-# Nextract 
+# Nextract
 
-Nextract is a data selection tool developed with small business owners in mind. For many, cherry picking through large files of products is tedious and time consuming. With Nextract all you need to do is upload your file or insert an API link to get a summary of key names in a simple view. Here you can choose which information is relevant to your business before proceeding to the next page, which allows you to pick which products you would like to display on your website. Nextract also gives you the option to preview how your chosen products would look on a real website. Lastly, all you need to do is save the compiled HTML-file to your device. Fast, easy and simple. 
+Nextract is a showcase version of a product-data selection tool for small businesses. The app helps a user load product data, choose the fields that matter, save a cleaned feed, select products, preview a storefront-style page and download the result.
 
-Get started with Nextract.
+The project was built as a Chas Academy project for Chas Challenge, where the team reached the final and finished in second place.
 
+## Showcase Status
 
-## Who are we at Nextract?
-Nextract is designed and built by a group of students at Chas Academy located in Stockholm, Sweden. 
+This repository is prepared so the frontend can be run and reviewed without a live backend.
 
-### UX/UI team:
-* Alexandra Shabardina
-* Batoul Ali
+What works in the showcase version:
 
-### DevOps: 
-* Johannes Hedman
+- Landing page and sign up/login flow
+- Dashboard with demo activity and saved product feeds
+- API/data flow with fallback demo data when no API URL is provided or a request fails
+- JSON and CSV upload directly in the browser
+- Field selection, preview and local save/update using `localStorage`
+- Product selection, product preview and downloadable preview page
+- Local fallback response for the chat helper when the AI/backend service is unavailable
 
-### Fullstack Javascript developers: 
-* Emil Rönnqvist
-* Felix Olsson Stenersjö
-* Moa Sjögren
-* Mladen Kovacic
-* Simon Kaneborn
-* Sara J. Pallander
-* William Gertoft
+The Express/Prisma backend is still included for code review and future development. It contains the original database, upload, auth, contact and chat endpoints, but the showcase frontend does not require it to run.
 
-## What can you do with Nextract?
+## Tech Stack
 
-### Landing page
-A sleek and modern informational webpage containing our concept and what we offer. Here you can read all about what our goal as a service is and why you should choose Nextract.
-#
-### Login / Sign Up
-Forms for login and sign up were decided to be on the same webpage, separated by a sliding element. To become a Nextract user all you need to do is fill out your company name, company email and a unique password.
-#
-### Dashboard
-Welcome to your dashboard! Here you are met by an easy-to-read grid layout containing your recent activity. 
-- A list of all your saved APIs. When clicked you can choose to either edit the API or delete it.
+- Next.js 15, React 19 and TypeScript
+- Zustand for client state
+- React Hook Form
+- React JSON View Lite
+- Motion
+- DaisyUI/Tailwind CSS
+- Express, Prisma and Node.js in the optional backend
 
-- Status of recent changes to the APIs (Created / Edited)
+## Run Frontend
 
-- Total number of products across all your saved APIs.
+```bash
+cd frontend-dashboard-main
+npm ci
+npm run dev
+```
 
-#
-### API
-- Input field for API URL. 
-    - Below it is an input field for API keys in case that is required to access the API.
+Open `http://localhost:3001`.
 
-- Upload button to allow conversion and display of other file formats:
-    - JSON
-    - XML
-    - Excell
+To create a production build:
 
-After permitting the data file our algorithm will then read through the key names that occur in the file structure and compile them in a simplified list, where you, the user, can pick which information is relevant to keep. You can then preview the new file structure and then save and name your new compiled API. 
+```bash
+npm run build
+```
 
-We also allow our users to view their submitted files in an **advanced view**, which displays the data in its raw form. 
-#
-### Products
-From the drop down selection, choose which of your saved APIs you would like to open. Here you will have displayed a list of all the products, now only containing the relevant data you chose in the last step. In this section you can now select from the products in the data file.
+## Optional Backend
 
-The preview button redirects the user to a mock up of what the products and their attributed information would look like on a real website.
-
-When you are happy with your draft you can easily save the compiled HTML file directly to your device by clicking the download button.
-#
-### Settings
-- Change preferred language
-
-- Change your display name
-
-- Allow or disable email notifications
-#
-### Support 
-Feeling lost? On our support page we have organized our most frequently asked questions and answers. In case you can't find the answer you were looking for you can also find a contact form to get in touch with someone at Nextract.
-
-In a hurry to get answers? Let us introduce you to **Dataknut**, our AI-powered assistant. He knows his way around Nextract and is eager to help. Simply click the logo in the bottom far right corner of the application to open a chat conversation with Dataknut. 
-
-#
-
-_Please note that some elements across all mentioned pages are still in a proof-of-concept stage._
-## How was Nextract created?
-### Trello
-Making lists of big goals according to user stories and breaking them down into smaller tasks.
-
-![Alt text](./frontend-dashboard-main/src/public/trello.png)
-#
-### Figma
-
-![Alt text](./frontend-dashboard-main/src/public/wireframes.png)
-#
-### Tech stack
-
-- **Frontend:**
-    - React (TS)
-    - Next.js
-    - DaisyUI
-    - React Icons
-    - Framer Motion
-    - Axios
-    - Zustand
-    - JS Cookie
-    - React Hook Form
-    - React JSON View lite
-
-- **Backend:**
-    - Node (TS)
-    - Express
-    - Prisma
-    - Bcrypt
-    - Axios
-    - CORS
-    - CSV-parser
-    - Fast XML-parser
-    - dotenv
-    - Multer
-    - Re-send
-    - XLSX
-    - XML2JS
-
-#
+The backend lives in `backend-dashboard-main`. It was part of the original full-stack prototype and expects environment variables, a database and external services for features such as auth, persistence, uploads, email and chat. For portfolio review, start with the frontend showcase first.

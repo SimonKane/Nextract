@@ -14,6 +14,10 @@ import {
   useApiIdStore,
   useOriginalAPIStore,
 } from "@/lib/store";
+import {
+  deleteShowcaseApi,
+  getShowcaseApis,
+} from "@/utils/showcaseStorage";
 import Link from "next/link";
 import styles from "./styles.module.css";
 
@@ -23,9 +27,9 @@ const ChatWindow = dynamic(() => import("@/components/chatBtn/chatWindow"), {
 
 interface Api {
   id: string;
-  items: [];
+  items: object[];
   APIname: string;
-  name: string;
+  name?: string;
   originalApi: {
     apiUrl: string;
   };
@@ -79,8 +83,15 @@ export default function Dashboard() {
 
   const fetchApis = useCallback(() => {
     const rawCookie = Cookies.get("userData");
-    if (!rawCookie) {
-      console.error("User cookie not found");
+    if (!serverURL || !rawCookie) {
+      const apis = getShowcaseApis();
+      setApiList(apis);
+      setRecentActivities(apis.slice(0, 3));
+      setProductCount(
+        apis.reduce((acc, item) => acc + (item.items?.length || 0), 0)
+      );
+      setName(rawCookie ? JSON.parse(rawCookie).company : "Nextract Demo");
+      setIsLoading(false);
       return;
     }
 
@@ -179,6 +190,13 @@ export default function Dashboard() {
 
   const deleteApi = async (id: string) => {
     try {
+      if (!serverURL) {
+        deleteShowcaseApi(id);
+        fetchApis();
+        setShowModal(false);
+        return;
+      }
+
       const res = await fetch(
         `${
           process.env.NEXT_PUBLIC_HTTP_PROTOCOL ? "http" : "https"
@@ -231,6 +249,16 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    if (!serverURL || !userId) {
+      setChatSessions([
+        {
+          id: "showcase-chat",
+          preview: "Showcase helper is available in demo mode.",
+        },
+      ]);
+      return;
+    }
+
     // Load chat sessions
     fetch(
       `${

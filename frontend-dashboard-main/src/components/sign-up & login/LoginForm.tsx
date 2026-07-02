@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
+import { createDemoSession } from "@/utils/showcaseStorage";
 import styles from "./signup-login.module.css";
 
 interface LogInFormInput {
@@ -23,7 +24,19 @@ export default function LoginForm({ clicked }: any) {
 
   const { login } = authContext;
   const { register, handleSubmit } = useForm<LogInFormInput>();
+
+  const startDemoSession = (email?: string) => {
+    const user = createDemoSession(undefined, email);
+    login(user, "showcase-token");
+    router.push("/dashboard");
+  };
+
   const onSubmit: SubmitHandler<LogInFormInput> = async (data) => {
+    if (!serverURL) {
+      startDemoSession(data.email);
+      return;
+    }
+
     try {
       const response = await fetch(
         `${
@@ -43,14 +56,15 @@ export default function LoginForm({ clicked }: any) {
         console.log(response);
       } else {
         const responseData = await response.json();
-        login(responseData.token, responseData.user);
+        login(responseData.user, responseData.token);
         localStorage.setItem("user", responseData.user.email);
 
         Cookies.set("userData", JSON.stringify(responseData.user));
         router.push("/dashboard");
       }
     } catch (error) {
-      alert(`No connection to server, error: ${error}`);
+      console.warn("No backend connection, starting showcase session.", error);
+      startDemoSession(data.email);
     }
   };
 
@@ -125,7 +139,6 @@ export default function LoginForm({ clicked }: any) {
               disabled={clicked ? true : false}
             />
           </label>
-          <p className={styles.forgot}>Forgot password?</p>
           <p className="validator-hint hidden">
             Must be more than 8 characters, including
             <br />

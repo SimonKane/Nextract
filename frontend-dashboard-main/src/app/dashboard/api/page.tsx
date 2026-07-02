@@ -42,6 +42,10 @@ type ParsedObject = Record<string, any>;
 import type { KeyValuePair } from "@/utils/extractKeyValuePairs";
 import { extractKeyValuePairs } from "@/utils/extractKeyValuePairs";
 import { fetchData } from "@/utils/fetchData";
+import {
+  saveShowcaseApi,
+  updateShowcaseApi,
+} from "@/utils/showcaseStorage";
 //#endregion
 
 export default function Api() {
@@ -124,6 +128,22 @@ export default function Api() {
     const savedData = parseFlatArray(filteredData);
 
     try {
+      if (!serverURL) {
+        saveShowcaseApi({
+          id: `showcase-api-${Date.now()}`,
+          APIname:
+            apiName.charAt(0).toUpperCase() + apiName.slice(1) ||
+            "Saved Demo Feed",
+          items: savedData,
+          originalApi: {
+            apiUrl: api || "showcase://manual-save",
+          },
+          type: "created",
+          date: new Date().toISOString(),
+        });
+        return;
+      }
+
       const userData = Cookies.get("userData");
       if (userData) {
         const parsedUserData = JSON.parse(userData);
@@ -159,6 +179,14 @@ export default function Api() {
     const updatedData = parseFlatArray(filteredData);
 
     try {
+      if (!serverURL) {
+        updateShowcaseApi(APIId, updatedData);
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 800);
+        return;
+      }
+
       const updatedAPI = await fetch(
         `${
           process.env.NEXT_PUBLIC_HTTP_PROTOCOL ? "http" : "https"
