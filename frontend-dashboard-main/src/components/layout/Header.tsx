@@ -7,7 +7,7 @@ import { HelpButton } from "../HelpButton/helpBtn";
 import { HelpModal } from "../helpModal/HelpModal";
 
 export default function Header() {
-  const [isLoggedIn, _setIsLoggedIn] = useState<boolean>(true);
+  const isLoggedIn = true;
   const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
   const [pageNr, setPageNr] = useState<number>(0);
   const [disabledModal, setDisabledModal] = useState<boolean>(false);

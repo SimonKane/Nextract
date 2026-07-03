@@ -1,7 +1,7 @@
 export type ShowcaseApi = {
   id: string;
   APIname: string;
-  items: Record<string, any>[];
+  items: Record<string, unknown>[];
   originalApi: {
     apiUrl: string;
   };

@@ -14,7 +14,7 @@ const eslintConfig = [
   {
     rules: {
       // Add default rules here if needed, or leave empty
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-explicit-any": "warn",
       "react/display-name": "warn",
