@@ -7,6 +7,12 @@
   cursor: pointer;
 }
 
+@media (max-width: 760px) {
+  .linkButton {
+    width: 100%;
+  }
+}
+
 .linkButton:hover {
   background-color: var(--blue-primary-hover);
   opacity: 0.9;

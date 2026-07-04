@@ -163,3 +163,43 @@
   height: 30px;
   cursor: pointer;
 }
+
+@media (max-width: 760px) {
+  .main {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .container {
+    height: auto;
+    max-height: 58vh;
+    padding: 0 8px;
+  }
+
+  .row {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .cell {
+    min-width: 110px;
+    max-width: 110px;
+  }
+
+  .buttoncontainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .previewbutton {
+    width: 100%;
+  }
+
+  .modaloverlay {
+    padding: 12px;
+  }
+
+  .modalcontent {
+    max-width: 100%;
+  }
+}

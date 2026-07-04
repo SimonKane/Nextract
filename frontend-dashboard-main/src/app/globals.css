@@ -44,14 +44,49 @@ html {
   --delete-button-red-hover: #ff7875;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   background-color: white;
   color: var(--off-black);
   font-family: var(--font-familiy-manrope);
   font-style: "Manrope";
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --button-width: min(100%, 180px);
+    --button-height: 42px;
+    --h1-font-size: 1.35rem;
+    --h2-font-size: 1.2rem;
+    --h3-font-size: 1rem;
+    --regular-font-size: 0.95rem;
+  }
 }
 
 .jsonView {

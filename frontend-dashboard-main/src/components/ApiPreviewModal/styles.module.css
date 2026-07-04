@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 16px;
 }
 
 .modalcontent {
@@ -18,7 +19,8 @@
   position: relative;
   width: 100%;
   max-width: 800px;
-  margin-left: 20%;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
 }
 
 .closebutton {
@@ -31,4 +33,11 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .modalcontent {
+    max-width: 100%;
+    width: 100%;
+  }
 }

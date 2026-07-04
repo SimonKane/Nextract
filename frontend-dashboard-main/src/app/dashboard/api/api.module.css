@@ -2,18 +2,20 @@
 
 .container {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  gap: 18px;
+  padding: 12px 0 20px;
 }
 
 /* View Toggle Buttons */
 .buttoncontainer {
   display: flex;
   align-items: center;
-  width: 400px;
+  width: min(400px, 90vw);
   border: #4b4b4b 2px solid;
   border-radius: var(--input-border-radius);
   height: 30px;
@@ -61,6 +63,7 @@
   justify-content: flex-start;
   gap: 10px;
   width: 90%;
+  max-width: 1100px;
 }
 
 .urlInput {
@@ -90,6 +93,7 @@
 .apiButtons {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .label {
@@ -168,6 +172,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 1100px;
 }
 
 .keyList {
@@ -197,6 +202,7 @@
   margin: 0 8px;
   font-weight: 500;
   font-size: var(--regular-font-size);
+  overflow-wrap: anywhere;
 }
 
 .checkbox {
@@ -241,6 +247,8 @@
   margin-top: 20px;
   flex-direction: row;
   gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .buttonSave,
@@ -298,9 +306,9 @@
   background: white;
   border-radius: var(--container-border-radius);
   position: relative;
-  width: 40%;
+  width: min(520px, calc(100% - 32px));
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  padding: 100px;
+  padding: clamp(28px, 8vw, 80px);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -332,4 +340,53 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .container {
+    justify-content: flex-start;
+    padding: 16px 12px 24px;
+  }
+
+  .inputContainer,
+  .keyContainer {
+    width: 100%;
+  }
+
+  .urlInput {
+    align-items: stretch;
+    flex-direction: column;
+    row-gap: 10px;
+    column-gap: 0;
+  }
+
+  .apiButtons {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+
+  .keyContainer {
+    height: auto;
+    max-height: 52vh;
+  }
+
+  .keyListItem {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .saveConnectButtonContainer {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .buttonSave,
+  .buttonConnect {
+    width: 100%;
+    margin-right: 0;
+  }
 }

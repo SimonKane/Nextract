@@ -8,10 +8,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
 }
 .helpModal {
-  height: 700px;
-  width: 700px;
+  height: min(700px, calc(100vh - 32px));
+  width: min(700px, calc(100vw - 32px));
   border-radius: 20px;
   background-color: rgb(236, 231, 231);
   position: relative;
@@ -55,8 +56,8 @@
   max-width: 500px;
 }
 .helpImg {
-  height: 300px;
-  width: 400px;
+  height: min(300px, 38vh);
+  width: min(400px, 100%);
   object-fit: contain;
 }
 
@@ -94,4 +95,24 @@
 }
 .closeBtn:hover {
   scale: 1.05;
+}
+
+@media (max-width: 560px) {
+  .help {
+    gap: 20px;
+    padding: 32px 24px;
+  }
+
+  .help > h1 {
+    font-size: 1.4rem;
+  }
+
+  .help > p {
+    font-size: 0.95rem;
+  }
+
+  .arrowLeft,
+  .arrowRight {
+    margin: 0 8px;
+  }
 }

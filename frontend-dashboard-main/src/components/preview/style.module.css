@@ -1,7 +1,7 @@
 /* CONTAINER */
 .previewcontainer {
   height: 70vh;
-  width: 70vw;
+  width: min(70vw, 1100px);
   background-color: #fff;
   border: var(--border-thickness) solid var(--border-color);
   color: var(--off-black);
@@ -117,4 +117,42 @@
 
 .storebtn:hover {
   color: #000;
+}
+
+@media (max-width: 760px) {
+  .previewcontainer {
+    width: 100%;
+    height: auto;
+    max-height: 68vh;
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  .productlist {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .storeheader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 1rem;
+  }
+
+  .storenav,
+  .storeright {
+    width: 100%;
+    flex: none;
+  }
+
+  .storenavmenu {
+    justify-content: flex-start;
+    gap: 1rem;
+    overflow-x: auto;
+  }
+
+  .storeright {
+    justify-content: flex-start;
+  }
 }

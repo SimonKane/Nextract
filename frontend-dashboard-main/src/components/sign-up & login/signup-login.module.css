@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 .main {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   background-color: #e4f0f6;
   justify-content: space-around;
@@ -232,4 +232,73 @@
 .modal p {
   color: #666;
   margin: 0;
+}
+
+@media (max-width: 860px) {
+  .main {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 24px;
+    padding: 96px 16px 32px;
+  }
+
+  .signupContainer,
+  .loginContainer {
+    width: 100%;
+    max-width: 430px;
+    min-width: 0;
+    margin: 0 auto;
+  }
+
+  .signupContainer,
+  .loginContainer,
+  .signupContainer.register,
+  .loginContainer.register {
+    opacity: 100%;
+  }
+
+  .welcome,
+  .welcome.register {
+    position: static;
+    order: -1;
+    transform: none;
+    width: 100%;
+    height: auto;
+    min-height: 260px;
+    border-radius: 12px;
+    padding: 28px 20px;
+  }
+
+  .section {
+    width: 100%;
+    max-width: 430px;
+    gap: 14px;
+  }
+
+  .section h1 {
+    font-size: 30px;
+  }
+
+  .section .welcomeMsg {
+    font-size: 18px;
+  }
+
+  .section img {
+    width: 100%;
+    max-width: 260px;
+    margin-top: 10px;
+  }
+
+  .logo {
+    margin: 20px;
+  }
+
+  .signupContainer .header,
+  .loginContainer .header {
+    font-size: 30px;
+  }
+
+  .inputLabel {
+    font-size: 17px;
+  }
 }

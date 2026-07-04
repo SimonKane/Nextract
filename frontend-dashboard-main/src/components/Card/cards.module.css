@@ -1,6 +1,6 @@
 .container {
   height: 455px;
-  width: 350px;
+  width: min(350px, 100%);
   background-color: white;
   color: black;
   border-radius: var(--container-border-radius);
@@ -37,4 +37,25 @@
 .text p {
   font-weight: 400;
   font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .container {
+    height: auto;
+    min-height: 400px;
+  }
+
+  .container:hover {
+    transform: none;
+  }
+
+  .text {
+    padding: 20px;
+  }
+
+  .text h3 {
+    width: 100%;
+    font-size: 22px;
+    line-height: 1.25;
+  }
 }

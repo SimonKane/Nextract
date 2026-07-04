@@ -5,7 +5,8 @@
   justify-content: space-around;
   align-items: center;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
+  z-index: 850;
   font-family: "manrope";
   padding: 10px;
   transition: ease-in-out 0.3s;
@@ -27,8 +28,8 @@
   position: fixed;
   bottom: 80px;
   right: 20px;
-  width: 350px;
-  height: 400px;
+  width: min(350px, calc(100vw - 24px));
+  height: min(400px, calc(100vh - 130px));
   background: white;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -150,4 +151,26 @@
   color: black;
   border: 1px solid #ccc;
   border-radius: 12px;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .chatBtn {
+    bottom: 82px;
+  }
+
+  .chatWindow {
+    bottom: 138px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 430px) {
+  .inputArea {
+    gap: 8px;
+  }
+
+  .sendButton {
+    padding: 6px 12px;
+  }
 }

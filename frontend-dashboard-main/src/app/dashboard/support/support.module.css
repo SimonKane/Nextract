@@ -1,10 +1,11 @@
 .container {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px 12px;
 }
 
 .faqContainer h1 {
@@ -15,7 +16,7 @@
 .faqContainer {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: min(70%, 920px);
   margin: 0 auto;
 }
 
@@ -49,6 +50,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   font-weight: 500;
 }
 
@@ -132,6 +134,11 @@
   -moz-appearance: none;
 }
 
+.textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
 .buttonPrimary {
   all: unset;
   background-color: var(--blue-primary);
@@ -148,4 +155,34 @@
 
 .buttonPrimary:hover {
   background-color: var(--blue-primary-hover);
+}
+
+@media (max-width: 760px) {
+  .container {
+    justify-content: flex-start;
+  }
+
+  .faqContainer {
+    width: 100%;
+  }
+
+  .faqItem,
+  .contactCard {
+    padding: 1rem;
+  }
+
+  .faqQuestion {
+    align-items: flex-start;
+  }
+
+  .input,
+  .select,
+  .textarea,
+  .fileInput {
+    font-size: 16px;
+  }
+
+  .buttonPrimary {
+    width: 100%;
+  }
 }
