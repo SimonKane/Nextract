@@ -10,3 +10,13 @@
 .logoutButton:hover {
   color: var(--action-primary);
 }
+
+@media (max-width: 900px) {
+  .logoutButton {
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.72rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+}

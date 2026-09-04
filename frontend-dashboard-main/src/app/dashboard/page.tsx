@@ -3,7 +3,6 @@ import { JsonViewer } from "@/components/apiComponents/JsonView";
 import LoadingCircleSpinner from "@/components/loadingSpinner/LoadingSpinner";
 import tickCircle from "@/public/tick-circle.svg";
 import Cookies from "js-cookie";
-import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -74,9 +73,6 @@ export default function Dashboard() {
   const setApiId = useApiIdStore((state) => state.setId);
   const setApi = useOriginalAPIStore((state) => state.setApi);
   const setAPIkey = useAPIKeyStore((state) => state.setKey);
-
-  const count = useMotionValue(0);
-  const rounded = useTransform(() => Math.round(count.get()));
 
   const router = useRouter();
   const serverURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -172,10 +168,6 @@ export default function Dashboard() {
     fetchApis();
   }, [fetchApis, setAPIkey, setApi]);
 
-  useEffect(() => {
-    const controls = animate(count, productCount, { duration: 2 });
-    return () => controls.stop();
-  }, [count, productCount]);
   const handleClick = (apiUrl: Api) => {
     setActiveAPI(apiUrl);
   };
@@ -276,29 +268,41 @@ export default function Dashboard() {
 
   return (
     <div className={styles.container}>
-      <div>
-        <h1>Welcome {name} to your Dashboard</h1>
-        <h3>Manage your APIs, products and website content easily.</h3>
+      <div className={styles.pageIntro}>
+        <div className={styles.introCopy}>
+          <p className={styles.context}>Product workspace</p>
+          <h1>Welcome back, {name}.</h1>
+          <p className={styles.introText}>
+            Your feeds, products and recent changes — ready when you are.
+          </p>
+        </div>
+        <Link href="/dashboard/api" className={styles.button}>
+          <span>Add new API</span>
+          <span aria-hidden="true">↗</span>
+        </Link>
       </div>
       <div className={styles.grid}>
         <div className={styles.dash + " " + styles.status}>
-          <h3>Activity</h3>
+          <div className={styles.sectionHeading}>
+            <h2>Recent activity</h2>
+            <span>Latest changes</span>
+          </div>
           {isLoading ? (
             <LoadingCircleSpinner />
           ) : (
             <ul>
+              {recentActivities.length === 0 && (
+                <li className={styles.emptyState}>No recent changes yet.</li>
+              )}
               {recentActivities.map((item, index) => {
                 return (
                   <li key={item.id + index} className={styles.activityItem}>
-                    <p className={styles.APIname}>{item.APIname}</p>
-                    <p className={styles.timeText}>
-                      {timeAgoOrDate(item.date)}
-                    </p>
-                    <span
-                      style={{
-                        color: item.type === "created" ? "green" : "orange",
-                      }}
-                    >
+                    <span className={styles.activityMark} aria-hidden="true" />
+                    <div className={styles.activityCopy}>
+                      <p className={styles.APIname}>{item.APIname}</p>
+                      <p className={styles.timeText}>{timeAgoOrDate(item.date)}</p>
+                    </div>
+                    <span className={item.type === "created" ? styles.created : styles.updated}>
                       {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
                     </span>
                   </li>
@@ -308,17 +312,27 @@ export default function Dashboard() {
           )}
         </div>
         <div className={styles.dash + " " + styles.products}>
-          <h3>Total Products</h3>
+          <div className={styles.productTopline}>
+            <p>Live catalogue</p>
+            <span>{apiList.length} {apiList.length === 1 ? "feed" : "feeds"}</span>
+          </div>
           {isLoading ? (
             <LoadingCircleSpinner />
           ) : (
-            <h4>
-              <motion.pre className={styles.pre}>{rounded}</motion.pre>
-            </h4>
+            <div className={styles.productMetric}>
+              <pre className={styles.pre}>{productCount}</pre>
+              <p>products connected</p>
+            </div>
           )}
+          <div className={styles.signal} aria-hidden="true">
+            <span /><span /><span /><span /><span /><span />
+          </div>
         </div>
         <div className={styles.dash + " " + styles.recent}>
-          <h3>Your API&apos;s</h3>
+          <div className={styles.sectionHeading}>
+            <h2>Your feeds</h2>
+            <span>{apiList.length} connected</span>
+          </div>
           {showModal ? (
             <div
               onClick={(e) => {
@@ -333,24 +347,22 @@ export default function Dashboard() {
                 <div className={styles.jsonView}>
                   <JsonViewer json={activeAPI?.items || []} />
                 </div>
-                <button
-                  onClick={() => {
-                    if (activeAPI) {
-                      updateApi(activeAPI);
-                    }
-                  }}
-                  className={styles.updateBtn}
-                >
-                  Update this API
-                </button>
-                <button
-                  onClick={() => {
-                    deleteApi(activeAPI ? activeAPI.id : "");
-                  }}
-                  className={styles.deleteBtn}
-                >
-                  Delete this API
-                </button>
+                <div className={styles.modalActions}>
+                  <button
+                    onClick={() => {
+                      if (activeAPI) updateApi(activeAPI);
+                    }}
+                    className={styles.updateBtn}
+                  >
+                    Update this API
+                  </button>
+                  <button
+                    onClick={() => deleteApi(activeAPI ? activeAPI.id : "")}
+                    className={styles.deleteBtn}
+                  >
+                    Delete this API
+                  </button>
+                </div>
               </div>
             </div>
           ) : null}
@@ -358,22 +370,15 @@ export default function Dashboard() {
             <LoadingCircleSpinner />
           ) : (
             <ul>
+              {Array.isArray(apiList) && apiList.length === 0 && (
+                <li className={styles.emptyState}>Add your first API to start building a catalogue.</li>
+              )}
               {Array.isArray(apiList) &&
                 apiList.map((item, index) => {
                   return (
-                    <motion.li
+                    <li
                       className={styles.listItem}
                       key={item.id}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        duration: 0.4,
-                        scale: {
-                          type: "spring",
-                          visualDuration: 0.4,
-                          bounce: 0.5,
-                        },
-                      }}
                     >
                       <button
                         onClick={() => {
@@ -382,35 +387,37 @@ export default function Dashboard() {
                         }}
                         className={styles.listBtn}
                       >
-                        {item.APIname ? item.APIname : "Unnamed API: " + index}
+                        <span>{item.APIname ? item.APIname : "Unnamed API: " + index}</span>
+                        <small>{item.items?.length || 0} products</small>
                       </button>
                       <span className={styles.active}>
-                        <Image height={20} src={tickCircle} alt="tickcircle" />
+                        <Image height={18} src={tickCircle} alt="Active" />
                       </span>
-                    </motion.li>
+                    </li>
                   );
                 })}
             </ul>
           )}
         </div>
         <div className={styles.dash + " " + styles.support}>
-          <h3>Support Replies</h3>
+          <div className={styles.sectionHeading}>
+            <h2>Support</h2>
+            <button onClick={() => openChat(null)}>New message</button>
+          </div>
           <div className={styles.chatHistory}>
             {chatSessions.map((session) => (
-              <div
+              <button
                 key={session.id}
                 className={styles.chatPreview}
                 onClick={() => openChat(session.id)}
               >
-                {session.preview}
-              </div>
+                <span>{session.preview}</span>
+                <span aria-hidden="true">→</span>
+              </button>
             ))}
           </div>
         </div>
       </div>
-      <Link href="/dashboard/api">
-        <button className={styles.button}>Add new API</button>
-      </Link>
 
       {chatOpen && (
         <ChatWindow

@@ -3,66 +3,84 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: var(--border-thickness) solid var(--border-color);
-  margin-bottom: 10px;
-  padding: 8px 22px 8px 50px;
-  color: #4b4b4b;
+  height: 72px;
+  border-bottom: 1px solid #dce5ed;
+  padding: 0 clamp(24px, 4vw, 64px);
+  background: #f2f6fa;
+  color: #61768a;
   min-width: 0;
 }
 
 .header h3 {
-  font-size: 1.4rem;
+  font-size: 0.78rem;
+  font-family: var(--font-familiy-space-mono);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   min-width: 0;
   overflow-wrap: anywhere;
-}
-
-.header svg {
-  height: 56px;
-  border: var(--border-thickness) solid var(--border-color);
-  border-radius: var(--circle-border-radius);
 }
 
 .asideNav {
   align-self: flex-start;
   position: sticky;
   top: 0;
-  padding: 12px;
-  gap: 12px;
+  padding: 28px 20px 24px;
   background-color: var(--blue-primary);
-  width: 301px;
+  width: 252px;
   height: 100vh;
   flex-shrink: 0;
   overflow-y: auto;
 }
 
 .asideNav li {
-  text-align: center;
-  transition: 0.3s;
-  color: var(--nav-text-white);
+  position: relative;
+  color: #b8cae0;
   display: flex;
   width: 100%;
   align-items: center;
-  gap: 30px;
-  padding: 20px;
+  gap: 15px;
+  min-height: 48px;
+  padding: 0 14px;
+  border-left: 2px solid transparent;
+  transition: color 160ms ease, background 160ms ease;
 }
 
 .asideNav li:hover {
-  color: var(--action-primary);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .asideNav p {
-  font-size: var(--regular-font-size);
+  font-size: 0.86rem;
+  font-weight: 650;
 }
 
 .NextLogo {
-  margin-bottom: 100px;
-  padding: 8px 12px 0px 12px;
+  width: 154px;
+  margin: 2px 12px 66px;
+}
+
+.activeLink li {
+  color: #fff;
+  background: rgba(82, 203, 255, 0.1);
+  border-left-color: var(--action-primary);
+}
+
+.activeLink li svg {
+  color: var(--action-primary);
+}
+
+.asideNav a:focus-visible,
+.asideNav button:focus-visible {
+  outline: 2px solid #52cbff;
+  outline-offset: 2px;
 }
 
 @media (max-width: 900px) {
   .header {
-    padding: 8px 16px;
-    margin-bottom: 0;
+    height: 62px;
+    padding: 0 18px;
   }
 
   .header h3 {
@@ -77,7 +95,7 @@
     top: auto;
     z-index: 900;
     width: 100%;
-    height: 68px;
+    height: 72px;
     padding: 6px 8px;
     display: flex;
     align-items: center;
@@ -92,6 +110,8 @@
     justify-content: center;
     gap: 3px;
     padding: 6px 8px;
+    border-left: 0;
+    border-top: 2px solid transparent;
   }
 
   .asideNav p {
@@ -101,6 +121,10 @@
 
   .NextLogo {
     display: none;
+  }
+
+  .activeLink li {
+    border-top-color: var(--action-primary);
   }
 }
 
